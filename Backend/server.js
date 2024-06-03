@@ -5,8 +5,8 @@ const cors = require('cors');
 
 const app = express();
 
-// Enable CORS
-app.use(cors());
+// Enable CORS for the frontend app
+app.use(cors({ origin: 'http://localhost:3000' }));
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'build')));
@@ -51,6 +51,7 @@ app.get('*', (req, res) => {
 
 const server = http.createServer(app);
 
-server.listen(process.env.PORT || 3001, "localhost", () => {
-    console.log("Server running at http://localhost:3001/");
+server.listen(3001, 'localhost', () => {
+  // eslint-disable-next-line no-console
+  console.log('Server running at http://localhost:3001/');
 });
