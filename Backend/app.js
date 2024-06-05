@@ -5,11 +5,21 @@ const path = require("path");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const helmet = require("helmet");
+const mongoose = require('mongoose');
 
 // Import your routes
 const { API_ROUTES } = require("../src/utils/constants");
 
 const app = express();
+
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log('Connexion à MongoDB réussie !'))
+.catch(() => console.log('Connexion à MongoDB échouée !'));
+
 
 // Enable CORS for the frontend app
 app.use(cors({ origin: "http://localhost:3000" }));
@@ -45,6 +55,7 @@ app.post(API_ROUTES.SIGN_UP, (req, res) => {
   const token = jwt.sign({ userId: "user-id" }, process.env.JWT_SECRET, {
     expiresIn: "3h",
   });
+
   res.json({
     message: "Bienvenue sur MonVieuxGrimoire! Votre inscription a été réussie.",
     token,
@@ -70,11 +81,15 @@ app.post(API_ROUTES.SIGN_IN, async (req, res) => {
 });
 
 app.get(API_ROUTES.BOOKS, async (req, res) => {
-  // Return list of books
+  Books.find()
+    .then(books => res.status(200).res.json(books))
+    .catch(err => res.status(400).json('Error: ' + err));
 });
 
 app.get(API_ROUTES.BEST_RATED, (req, res) => {
-  // Return list of best rated books
+  bestRatedBooks.find()
+    .then(books => res.status(200).res.json(bestRatedBooks))
+    .catch(err => res.status(400).json('Error: ' + err));
 });
 
 app.get(API_ROUTES.AUTHENTICATED_USER, authenticateToken, (req, res) => {
