@@ -1,0 +1,18 @@
+/*eslint-disable*/
+const express = require ('express');
+const router = express.Router();
+
+const User = require ('../models/UserUp');
+
+
+router.post(API_ROUTES.SIGN_UP, (req, res) => {
+    // Handle user registration
+    const token = jwt.sign({ userId: "user-id" }, process.env.JWT_SECRET, {
+      expiresIn: "3h",
+    });
+  
+    res.json({
+      message: "Bienvenue sur MonVieuxGrimoire! Votre inscription a été réussie.",
+      token,
+    });
+  });
