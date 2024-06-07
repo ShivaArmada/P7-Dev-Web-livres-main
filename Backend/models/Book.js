@@ -4,8 +4,12 @@ const mongoose = require('mongoose');
 
 // Définition du schéma de la collection "books"
 const bookSchema = new mongoose.Schema({
-    // Définir les propriétés de votre modèle ici
+    title: String,
+    author: String,
+    rating: Number
 });
+
+
 
 // Création du modèle "Book" à partir du schéma
 const Book = mongoose.model('Book', bookSchema);

@@ -1,10 +1,25 @@
+/*eslint-disable */
 const mongoose = require('mongoose');
-
-/*eslint-disable*/
 
 // Définition du schéma de la collection "users"
 const userSchema = new mongoose.Schema({
-    // Définir les propriétés de votre modèle ici
+    userId: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    email: {
+        type: String,
+        required: true
+    },
+    motDePasse: {
+        type: String,
+        required: true
+    },
+    lastLogin: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 // Création du modèle "UserUp" à partir du schéma
