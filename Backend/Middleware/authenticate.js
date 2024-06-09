@@ -3,7 +3,7 @@
 const jwt = require("jsonwebtoken");
 
 function authenticateToken(req, res, next) {
-    const token = req.headers.authorization;
+    const token = req.headers.authorization.split(" ")[1];
   
     if (!token) {
       return res
@@ -12,7 +12,9 @@ function authenticateToken(req, res, next) {
     }
   
     try {
-      jwt.verify(token, process.env.JWT_SECRET);
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decodedToken.userId;
+    req.auth = { userId: userId };
       next();
     } catch (err) {
       console.error("Authentication failed", err);

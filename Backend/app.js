@@ -7,6 +7,8 @@ const jwt = require("jsonwebtoken");
 const helmet = require("helmet");
 const mongoose = require('mongoose');
 
+// ici on importe les routes pour les utiliser, c'est le fichier principal d'execution de l'application, il va renvoyer les requetes et les réponses (comme un processeur)
+
 // Import your routes
 const { API_ROUTES } = require("../src/utils/constants");
 //le serveur express

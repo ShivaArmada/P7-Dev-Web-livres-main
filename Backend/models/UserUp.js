@@ -1,26 +1,21 @@
 /*eslint-disable */
 const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 
 // Définition du schéma de la collection "users"
 const userSchema = new mongoose.Schema({
-    userId: {
+    email: {
         type: String,
         required: true,
         unique: true
     },
-    email: {
-        type: String,
-        required: true
-    },
     motDePasse: {
         type: String,
         required: true
-    },
-    lastLogin: {
-        type: Date,
-        default: Date.now
     }
 });
+
+userSchema.plugin(uniqueValidator);
 
 // Création du modèle "UserUp" à partir du schéma
 const UserUp = mongoose.model('UserUp', userSchema);
