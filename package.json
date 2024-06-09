@@ -25,10 +25,9 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.41.0",
     "react-router-dom": "^6.4.5",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "web-vitals": "^2.1.4"
   },
-  "proxy": "http://localhost:4000",
   "scripts": {
     "start": "concurrently \"react-scripts start\" \"npm run server\"",
     "build": "react-scripts build",
