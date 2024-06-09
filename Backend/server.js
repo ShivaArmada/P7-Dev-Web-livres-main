@@ -10,3 +10,7 @@ server.listen(process.env.PORT || 4000, () => {
 
 
 // et là notre server qui permet de faire la liaison entre les requetes et les réponses en écoutant et répondant aux requetes
+
+// modifications = nomenclature pascalCase pour les constantes et les fonctions
+// le serveur 4000 overkill enlever
+// lettre logique des routes dans les controllers => mettre les bonnes routes en routes

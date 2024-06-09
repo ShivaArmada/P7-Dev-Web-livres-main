@@ -26,20 +26,6 @@ app.use(cors({ origin: "http://localhost:3000" }));
 // Use Helmet for basic security
 app.use(helmet());
 
-
-//à voir si je garde les deux build static comme ils servent à rien pour l'instant en soit :
-
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, "build")));
-
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
-
-
-
-
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("500, quelque chose ne va pas!");
