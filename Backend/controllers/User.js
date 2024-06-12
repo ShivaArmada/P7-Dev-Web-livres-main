@@ -15,6 +15,8 @@ const handleError = (res, errorMessage, consoleMessage, statusCode = 500) => {
     return res.status(statusCode).json({ error: errorMessage });
 }
 
+module.exports = handleError;
+
 exports.signUp = async (req, res, next) => {
     const { email, motDePasse } = req.body;
 
