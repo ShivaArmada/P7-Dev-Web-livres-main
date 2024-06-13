@@ -1,18 +1,21 @@
-const mongoose = require('mongoose');
-
 /*eslint-disable*/
 
-// Définition du schéma de la collection "books"
+const mongoose = require("mongoose");
+
 const bookSchema = new mongoose.Schema({
-    title: String,
-    author: String,
-    rating: Number
+  userId: { type: String, required: true },
+  title: { type: String, required: true },
+  author: { type: String, required: true },
+  imageUrl: { type: String, require: true },
+  year: { type: Number, require: true },
+  genre: { type: String, require: true },
+  ratings: [
+    {
+      userId: { type: String, required: true },
+      grade: { type: Number, required: true },
+    },
+  ],
+  averageRating: { type: Number, require: true },
 });
 
-
-
-// Création du modèle "Book" à partir du schéma
-const Book = mongoose.model('Book', bookSchema);
-
-// Export du modèle pour pouvoir l'utiliser dans d'autres fichiers
-module.exports = Book;
+module.exports = mongoose.model("Book", bookSchema);

@@ -1,7 +1,7 @@
 /*eslint-disable*/
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const User = require("../models/User");
+const User = require("../models/UserUp");
 const saltRounds = 10;
 
 const generateToken = (userId) => {
