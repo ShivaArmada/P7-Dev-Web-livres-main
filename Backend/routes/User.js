@@ -5,7 +5,10 @@ const API_ROUTES = require('../../src/utils/constants'); // Assurez-vous que le 
 
 const userCtrl = require('../controllers/User');
 
-UserRouter.post(API_ROUTES.SIGN_UP, userCtrl.signUp);
-UserRouter.post(API_ROUTES.SIGN_IN, userCtrl.signIn);
+
+UserRouter.post('/signup', userCtrl.signUp);
+UserRouter.post('/signin', userCtrl.signIn);
+
+
 
 module.exports = UserRouter;

@@ -1,17 +1,16 @@
 /*eslint-disable*/
-import Book from "../models/Book";
-import handleError from "./User";
-const { getBooks, getBestRatedBooks } = require('../../src/lib/common');
+
+const Book = require("../models/Book");
+const handleError = require("./User");
+const fs = require("fs");
+
 
 
 
 exports.getBooks = async (req, res) => {
-    try {
-        const books = await getBooks();
-        res.status(200).json(books);
-    } catch (err) {
-        res.status(400).json('Error: ' + err);
-    }
+  Book.find()
+  .then((books) => res.status(200).json(books))
+  .catch((error) => res.status(404).json({ error }));
 };
 
 
@@ -51,13 +50,11 @@ exports.createBook = (req, res, next) => {
 
 
 exports.getBook = async (req, res, next) => {
-  try {
-    const book = await Book.findById(req.params.id);
-    return res.status(200).json(book);
-  } catch (err) {
-    return handleError(res, "Erreur :", err);
-  }
+  Book.findOne({ _id: req.params.id })
+    .then((book) => res.status(200).json(book))
+    .catch((error) => res.status(404).json({ error }));
 };
+
 
 exports.modifyBook = (req, res, next) => {
   const bookObject = req.file

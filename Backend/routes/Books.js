@@ -2,35 +2,32 @@
 
 /* les routes sont pour gerer comme en front le contexte d'utilisation des requetes http */
 
+//const { uploadImage, optimizeImage } = require("../Middleware/multer-config");
+//const authenticateToken = require("../Middleware/authenticate.js");
+const BooksCtrl = require("../controllers/Books.js");
 
-const express = require('express');
-const booksRouter = express.Router();
- const multer = require('../Middleware/multer-config');
- const auth = require('../Middleware/authentificate');
-
-const { API_ROUTES } = require('../src/utils/constants');
-const BooksCtrl = require('../controllers/Books');
+console.log(BooksCtrl.getBook); // test
 
 
 
-// Remove the base URL from the API routes
-const BOOKS = API_ROUTES.BOOKS.replace(API_ROUTES.API_URL, '');
-const BEST_RATED = API_ROUTES.BEST_RATED.replace(API_ROUTES.API_URL, '');
+async function BooksGet (req, res) {
 
-booksRouter.route(BOOKS)
-  .get(BooksCtrl.getAllBooks)
-  .post(auth, multer, multer.optimizeImage, BooksCtrl.createBook);
+  return await  BooksCtrl.getBooks (req, res);
+    
+    
+}
 
-booksRouter.route(`${BOOKS}/:id`)
-  .get(BooksCtrl.getOneBook)
-  .put(auth, multer, multer.optimizeImage, BooksCtrl.modifyBook)
-  .delete(auth, BooksCtrl.deleteBook);
+//.post(authenticateToken, uploadImage, optimizeImage, BooksCtrl.createBook);
+/*booksRouter
+  .route(`/:id`)
+  .get(BooksCtrl.getBook)
+  .put(authenticateToken, uploadImage, optimizeImage, BooksCtrl.modifyBook)
+  .delete(authenticateToken, BooksCtrl.deleteBook);
 
-booksRouter.route(`${BOOKS}/:id/rating`)
-  .post(auth, BooksCtrl.createRating);
+booksRouter
+  .route(`/:id/rating`)
+  .post(authenticateToken, BooksCtrl.createRating);
 
-booksRouter.get(BEST_RATED, BooksCtrl.getBestRating);
+booksRouter.get("/bestRating", BooksCtrl.getBestRating);*/
+module.exports = {BooksGet};
 
-
-
-module.exports = booksRouter;

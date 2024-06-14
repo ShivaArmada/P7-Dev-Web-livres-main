@@ -27,8 +27,10 @@ if (!fs.existsSync("images")) {
   fs.mkdirSync("images");
 }
 
+// Initialize multer
+const uploadImage = multer({ storage }).single("image");
 
-module.exports.optimizeImage = (req, res, next) => {
+const optimizeImage = (req, res, next) => {
   // On vérifie si un fichier a été téléchargé
   if (!req.file) {
     return next();
@@ -58,11 +60,7 @@ module.exports.optimizeImage = (req, res, next) => {
     });
 };
 
-
-
-// Initialize multer
-const uploadImage = multer({ storage }).single("image");
-
-module.exports = uploadImage;
-
-
+module.exports = {
+  uploadImage,
+  optimizeImage
+};

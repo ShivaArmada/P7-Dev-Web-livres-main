@@ -1,9 +1,10 @@
+/*eslint-disable  */ 
 const API_URL = 'http://localhost:4000';
 const API_ROUTES = {
-  SIGN_UP: `${API_URL}/api/auth/signup`,
-  SIGN_IN: `${API_URL}/api/auth/login`,
+  SIGN_UP: '/api/auth/signup',
+  SIGN_IN: '/api/auth/login',
   BOOKS: `${API_URL}/api/books`,
-  BEST_RATED: `${API_URL}/api/books/bestrating`,
+  BEST_RATED: '/api/books/bestrating',
 };
 
 const APP_ROUTES = {
@@ -11,7 +12,7 @@ const APP_ROUTES = {
   SIGN_IN: '/Connexion',
   ADD_BOOK: '/Ajouter',
   BOOK: '/livre/:id',
-  UPDATE_BOOK: 'livre/modifier/:id',
+  UPDATE_BOOK: '/livre/modifier/:id',
 };
 
 module.exports = { API_ROUTES, APP_ROUTES };
