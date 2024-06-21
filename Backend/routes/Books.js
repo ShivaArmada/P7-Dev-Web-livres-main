@@ -10,7 +10,7 @@ console.log(BooksCtrl.getBook); // test
 
 
 
-async function BooksGet (req, res) {
+async function BooksGetAll (req, res) {
 
   return await  BooksCtrl.getBooks (req, res);
     
@@ -29,5 +29,5 @@ booksRouter
   .post(authenticateToken, BooksCtrl.createRating);
 
 booksRouter.get("/bestRating", BooksCtrl.getBestRating);*/
-module.exports = {BooksGet};
+module.exports = {BooksGetAll};
 

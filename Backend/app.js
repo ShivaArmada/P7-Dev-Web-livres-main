@@ -7,7 +7,7 @@ const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const mongoose = require("mongoose");
 const User = require("./routes/User");
-const {BooksGet} = require("./routes/Books");
+const { BooksGetAll, BooksPost, BooksPut, BooksDelete, BooksGet } = require("./routes/Books");
 
 
 // Import your routes
@@ -17,7 +17,6 @@ const app = express();
 app.use(express.json());
 
 console.log(process.env.MONGODB_URL);
-
 
 mongoose
   .connect(process.env.MONGODB_URL)
@@ -41,28 +40,32 @@ app.use(cors({ origin: "http://localhost:3000" }));
 
 //app.use(limiter); // Apply to all requests
 
-
 // Use the routes
 //app.use("/images", express.static(path.join(__dirname, "images")));
 //app.use(API_ROUTES.SIGN_UP, require("./routes/User"));
 //app.use(API_ROUTES.SIGN_IN, require("./routes/User"));
-app.get("/api/books", BooksGet);
+app.get("/api/books", BooksGetAll);
 //app.use(API_ROUTES.BEST_RATED, require("./routes/Books"));
 
 //models => les schemas pour la base de données
 const Book = require("./models/Book");
 //const User = require("./models/UserUp");
 
-const data = require("../public/data/data.json");
+/*const data = require("../public/data/data.json");
 
 Book.insertMany(data)
   .then(() => console.log("Data sauvegardée :)) "))
   .catch((err) => console.log("Data non sauvegardée :'(", err));
 
+Book.deleteMany({})
+  .then(() => console.log("Toutes les données ont été supprimées."))
+  .catch((err) => console.log("Erreur lors de la suppression des données :", err));  
+*/
+
+
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("500, quelque chose ne va pas!");
 });
-
 
 module.exports = app;
