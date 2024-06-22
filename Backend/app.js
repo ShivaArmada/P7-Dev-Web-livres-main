@@ -6,17 +6,15 @@ const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const mongoose = require("mongoose");
-const User = require("./routes/User");
-const { BooksGetAll, BooksPost, BooksPut, BooksDelete, BooksGet } = require("./routes/Books");
+const { signIn, signUp } = require("./routes/User");
+const { BooksGetAll, BooksCreate, BooksGetOne, getBestRating, createRating, modifyBook, deleteBook } = require("./routes/Books");
 
 
-// Import your routes
-const { API_ROUTES } = require("../src/utils/constants");
 
 const app = express();
 app.use(express.json());
 
-console.log(process.env.MONGODB_URL);
+
 
 mongoose
   .connect(process.env.MONGODB_URL)
@@ -45,11 +43,26 @@ app.use(cors({ origin: "http://localhost:3000" }));
 //app.use(API_ROUTES.SIGN_UP, require("./routes/User"));
 //app.use(API_ROUTES.SIGN_IN, require("./routes/User"));
 app.get("/api/books", BooksGetAll);
+app.get("/api/books/:id", BooksGetOne);
+app.post("/api/books", BooksCreate);
+app.get("/api/books/bestRating", getBestRating);
+app.post("/api/books/:id/rating", createRating);
+app.put("/api/books/:id", modifyBook);
+app.delete("/api/books/:id", deleteBook);
 //app.use(API_ROUTES.BEST_RATED, require("./routes/Books"));
+
+//coté sign up et sign in
+
+app.post("/api/signup", signUp);
+app.post("/api/login", signIn);
+
+
+
 
 //models => les schemas pour la base de données
 const Book = require("./models/Book");
-//const User = require("./models/UserUp");
+const { sign } = require("crypto");
+const User = require("./models/UserUp");
 
 /*const data = require("../public/data/data.json");
 
