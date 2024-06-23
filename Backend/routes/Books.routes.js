@@ -27,8 +27,8 @@ module.exports = {
 */
 
 BooksRouter.get("/", BooksCtrl.getBooks);
-BooksRouter.get("/:id", BooksCtrl.getBook);
 BooksRouter.get("/bestrating", BooksCtrl.getBestRating);
+BooksRouter.get("/:id", BooksCtrl.getBook);
 BooksRouter.post("/", authenticateToken, multer, multer.optimizeImage, BooksCtrl.createBook);
 BooksRouter.post("/:id/rating", authenticateToken, BooksCtrl.createRating);
 BooksRouter.put("/:id", authenticateToken, multer, multer.optimizeImage, BooksCtrl.modifyBook);

@@ -2,42 +2,49 @@
 const multer = require("multer");
 const sharp = require("sharp");
 
-// Modules natifs Node.js pour gérer les fichiers et les chemins de fichiers
+// pour gérer les chemins de fichiers
 const path = require("path");
 const fs = require("fs");
 
-// Configuration
+
+/*const MIME_TYPES = {
+  "image/jpg": "jpg",
+  "image/jpeg": "jpg",
+  "image/png": "png",
+};
+*/
+
+// Configuration du stockage
 const storage = multer.diskStorage({
-  // Enregistrement des fichiers dans le dossier images
+  // Destination des fichiers
   destination: (req, file, callback) => {
     callback(null, "images");
   },
-
-  filename: (req, file, callback) => {
+  // Nom de fichier
+  filename: (req, file, cb) => {
     const name = file.originalname.slice(0, 3);
-    callback(null, name + Date.now() + ".webp");
+    cb(null, name + Date.now() + ".webp");
   },
+}); 
 
-  // Vérification du type MIME du fichier
-  fileFilter: (req, file, callback) => {
-    !file.originalname.match(/\.(jpg|jpeg|png|webp)$/)
-      ? callback(
-          new Error("Seuls les fichiers JPG, JPEG et PNG sont autorisés !"),
-          false
-        )
-      : callback(null, true);
-  },
-});
+// Filtre de fichier
+const fileFilter = (req, file, callback) => {
+  !file.originalname.match(/\.(jpg|jpeg|png|webp)$/)
+    ? callback(new Error("Seuls les fichiers JPG, JPEG, PNG et WEBP sont autorisés !"), false)
+    : callback(null, true);
+};
 
 // Création du dossier images s'il n'existe pas
 if (!fs.existsSync("images")) {
   fs.mkdirSync("images");
 }
 
-module.exports = multer({ storage: storage }).single("image");
+// Configuration de Multer
+const upload = multer({ storage: storage, fileFilter: fileFilter }).single("image");
+
+module.exports = upload;
 
 module.exports.optimizeImage = (req, res, next) => {
-  // On vérifie si un fichier a été téléchargé
   if (!req.file) {
     return next();
   }
@@ -46,17 +53,16 @@ module.exports.optimizeImage = (req, res, next) => {
   const fileName = req.file.filename;
   const outputFilePath = path.join("images", `resized_${fileName}`);
 
-  // Désactivation du cache !!!
   sharp.cache(false);
   sharp(filePath)
-    .resize({ height: 600 })
+    .resize({ width: 206, height: 260})
     .toFile(outputFilePath)
     .then(() => {
-      console.log(`Image ${fileName} optimisée avec succès !`);
-      // Remplacer le fichier original par le fichier optimisé
+      console.log(`Image ${fileName} optimisée avec succès `);
+
       fs.unlink(filePath, () => {
         req.file.path = outputFilePath;
-        console.log(`Image ${fileName} supprimée avec succès !`);
+        console.log(`Image ${fileName} supprimée avec succès `);
         next();
       });
     })

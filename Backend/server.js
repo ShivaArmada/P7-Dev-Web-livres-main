@@ -13,11 +13,16 @@ server.listen(process.env.PORT || 4000, () => {
 
 //modifications à faire => 
 /* 
-=> finir  les raccords des controlers avec les routes (problème d'import des fonctions à voir) (normalement bon)
-=> installer le doc data du (../../public/data/data.json) // pratiquement bon (en cours)
-=> installer les images dans le public/images
-=> faire les tests d'intégration
-=> tester le login et le signup
-=> tester les routes des livres (post, put, delete)
+=> finir  les raccords des controlers avec les routes (problème d'import des fonctions à voir) (bon)
+=> installer le doc data du (../../public/data/data.json) // pratiquement bon (bon)
+=> installer les images dans le public/images (quasi bon)
+=> faire les tests d'intégration (quasi bon)
+=> tester le login et le signup (bon)
+=> tester les routes des livres (post, put, delete) (bon, sauf bestRating)
 
+
+
+=> modifications à faire pour finir le projet :
+- trouver pourquoi le bestRating ne fonctionne pas (tenter avec une fonction comme vu en mentorat ?)
+-> faker.js
 */

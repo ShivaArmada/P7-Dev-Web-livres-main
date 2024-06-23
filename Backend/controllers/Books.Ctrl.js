@@ -6,16 +6,17 @@ const fs = require("fs");
 exports.getBooks = async (req, res) => {
   Book.find()
     .then((books) => res.status(200).json(books))
-    .catch((error) => res.status(404).json({ error })); // Simplified error handling
+    .catch((error) => res.status(404).json({ error })); 
 };
 
 exports.getBestRating = (req, res, next) => {
   Book.find()
     .sort({ averageRating: -1 })
-    .limit(3) // Changed limit to 3 as per example
+    .limit(5) 
     .then((books) => res.status(200).json(books))
-    .catch((error) => res.status(404).json({ error })); // Simplified error handling
+    .catch((error) => res.status(404).json({ error })); 
 };
+
 
 exports.createBook = (req, res, next) => {
   const bookObject = JSON.parse(req.body.book);
@@ -32,13 +33,13 @@ exports.createBook = (req, res, next) => {
     .then(() => {
       res.status(201).json({ message: "Objet enregistré !" });
     })
-    .catch((error) => res.status(400).json({ error })); // Simplified error handling
+    .catch((error) => res.status(400).json({ error })); 
 };
 
 exports.getBook = async (req, res, next) => {
   Book.findOne({ _id: req.params.id })
     .then((book) => res.status(200).json(book))
-    .catch((error) => res.status(404).json({ error })); // Simplified error handling and renamed from getOneBook for consistency
+    .catch((error) => res.status(404).json({ error })); 
 };
 
 exports.modifyBook = (req, res, next) => {
@@ -61,10 +62,10 @@ exports.modifyBook = (req, res, next) => {
           });
         Book.updateOne({ _id: req.params.id }, { ...bookObject, _id: req.params.id })
           .then(() => res.status(200).json({ message: "Objet modifié !" }))
-          .catch((error) => res.status(400).json({ error })); // Simplified error handling
+          .catch((error) => res.status(400).json({ error })); 
       }
     })
-    .catch((error) => res.status(404).json({ error })); // Simplified error handling
+    .catch((error) => res.status(404).json({ error })); 
 };
 
 exports.deleteBook = (req, res, next) => {
@@ -77,11 +78,11 @@ exports.deleteBook = (req, res, next) => {
         fs.unlink(`images/${filename}`, () => {
           Book.deleteOne({ _id: req.params.id })
             .then(() => res.status(200).json({ message: "Objet supprimé !" }))
-            .catch((error) => res.status(400).json({ error })); // Simplified error handling
+            .catch((error) => res.status(400).json({ error })); 
         });
       }
     })
-    .catch((error) => res.status(404).json({ error })); // Simplified error handling
+    .catch((error) => res.status(404).json({ error })); 
 };
 
 exports.createRating = async (req, res) => {
@@ -109,6 +110,6 @@ exports.createRating = async (req, res) => {
     await book.save();
     return res.status(201).json(book);
   } catch (error) {
-    return res.status(500).json({ error: "Erreur lors de la création de la notation" }); // Simplified error handling
+    return res.status(500).json({ error: "Erreur lors de la création de la notation" }); 
   }
 };
