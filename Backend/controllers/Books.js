@@ -4,26 +4,19 @@ const Book = require("../models/Book");
 const handleError = require("./User");
 const fs = require("fs");
 
-
-
-
 exports.getBooks = async (req, res) => {
   Book.find()
   .then((books) => res.status(200).json(books))
-  .catch((error) => res.status(404).json({ error }));
+  .catch((error) => handleError(res, "Impossible de récupérer les livres", error.message, 404));
 };
-
-
 
 exports.getBestRating = (req, res, next) => {
   Book.find()
     .sort({ averageRating: -1 })
     .limit(5)
     .then((books) => res.status(200).json(books))
-    .catch((error) => res.status(404).json({ error }));
+    .catch((error) => handleError(res, "Erreur lors de la récupération des meilleurs notations", error.message, 404));
 };
-
-
 
 exports.createBook = (req, res, next) => {
   const bookObject = JSON.parse(req.body.book);
@@ -44,17 +37,15 @@ exports.createBook = (req, res, next) => {
       res.status(201).json({ message: "Objet enregistré !" });
     })
     .catch((error) => {
-      res.status(400).json({ error });
+      handleError(res, "Erreur lors de la création du livre", error.message, 400);
     });
 };
-
 
 exports.getBook = async (req, res, next) => {
   Book.findOne({ _id: req.params.id })
     .then((book) => res.status(200).json(book))
-    .catch((error) => res.status(404).json({ error }));
+    .catch((error) => handleError(res, "Livre non trouvé", error.message, 404));
 };
-
 
 exports.modifyBook = (req, res, next) => {
   const bookObject = req.file
@@ -81,11 +72,11 @@ exports.modifyBook = (req, res, next) => {
           { ...bookObject, _id: req.params.id }
         )
           .then(() => res.status(200).json({ message: "Objet modifié !" }))
-          .catch((error) => res.status(400).json({ error }));
+          .catch((error) => handleError(res, "Erreur lors de la modification du livre", error.message, 400));
       }
     })
     .catch((error) => {
-      res.status(404).json({ error });
+      handleError(res, "Livre non trouvé pour modification", error.message, 404);
     });
 };
 
@@ -101,12 +92,12 @@ exports.deleteBook = (req, res, next) => {
             .then(() => {
               res.status(200).json({ message: "Objet supprimé !" });
             })
-            .catch((error) => res.status(400).json({ error }));
+            .catch((error) => handleError(res, "Erreur lors de la suppression du livre", error.message, 400));
         });
       }
     })
     .catch((error) => {
-      res.status(404).json({ error });
+      handleError(res, "Livre non trouvé pour suppression", error.message, 404);
     });
 };
 
@@ -114,19 +105,17 @@ exports.createRating = async (req, res) => {
   try {
     const { rating } = req.body;
     if (rating < 0 || rating > 5) {
-      return res
-        .status(400)
-        .json({ message: "La note doit être comprise entre 1 et 5" });
+      return handleError(res, "La note doit être comprise entre 1 et 5", "Note invalide", 400);
     }
 
     const book = await Book.findById(req.params.id);
     if (!book) {
-      return res.status(404).json({ message: "Livre non trouvé" });
+      return handleError(res, "Livre non trouvé", "Tentative de notation d'un livre inexistant", 404);
     }
 
     const userIdArray = book.ratings.map((rating) => rating.userId);
     if (userIdArray.includes(req.auth.userId)) {
-      return res.status(403).json({ message: "Non autorisé" });
+      return handleError(res, "Non autorisé", "Tentative de notation multiple par le même utilisateur", 403);
     }
 
     book.ratings.push({ ...req.body, grade: rating });
@@ -141,11 +130,6 @@ exports.createRating = async (req, res) => {
     await book.save();
     return res.status(201).json(book);
   } catch (error) {
-    return res
-      .status(500)
-      .json({ error: "Erreur lors de la création de la notation" });
+    return handleError(res, "Erreur lors de la création de la notation", error.message, 500);
   }
 };
-
-/*les controleurs sont la logique de l'app, ils vont permettre de faire des actions sur les données */
-
