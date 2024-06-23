@@ -5,23 +5,15 @@ const path = require("path");
 const cors = require("cors");
 const helmet = require("helmet");
 const mongoose = require("mongoose");
-const { signIn, signUp } = require("./routes/User.routes");
-const { BooksGetAll, BooksGetOne } = require("./routes/Books.routes");
-
-
-
+//const { signIn, signUp } = require("./routes/User.routes");
+//const { BooksGetAll, BooksGetOne } = require("./routes/Books.routes");
 
 const app = express();
-
-
-
 
 mongoose
   .connect(process.env.MONGODB_URL)
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch(() => console.log("Connexion à MongoDB échouée !"));
-
-
 
 // Enable CORS for the frontend app
 app.use(cors({ origin: "http://localhost:3000" }));
@@ -37,15 +29,12 @@ app.use(cors({ origin: "http://localhost:3000" }));
 app.use(express.urlencoded({ extended: true })); // Pour analyser les corps de requête des formulaires HTML
 app.use(express.json()); // Pour analyser les corps de requête au format JSON
 
-
-
 //coté books
 
-//app.use("/images", express.static(path.join(__dirname, "images")));
-//app.use("/api/books", require("./routes/Books.routes"));
-app.get("/api/books", BooksGetAll);
-app.get("/api/books/:id", BooksGetOne);
-
+app.use("/images", express.static(path.join(__dirname, "images")));
+app.use("/api/books", require("./routes/Books.routes"));
+//app.get("/api/books", BooksGetAll);
+//app.get("/api/books/:id", BooksGetOne);
 
 /*app.post("/api/books", BooksCreate);
 app.get("/api/books/bestRating", getBestRating);
@@ -53,17 +42,11 @@ app.post("/api/books/:id/rating", createRating);
 app.put("/api/books/:id", modifyBook);
 app.delete("/api/books/:id", deleteBook);*/
 
-
 //coté sign up et sign in
-/*
-app.post("/api/signup", signUp);
-app.post("/api/login", signIn);
 
-ou bien
+//ou bien
 
-//app.use("/api/auth", require("./routes/User.routes"));
-*/
-
+app.use("/api/auth", require("./routes/User.routes"));
 
 // Handle errors
 app.use((err, req, res, next) => {

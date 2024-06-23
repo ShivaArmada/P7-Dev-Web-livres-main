@@ -5,13 +5,13 @@
 const express = require("express");
 const BooksRouter = express.Router();
 
-//const multer = require("../Middleware/multer-config.js");
+const multer = require("../Middleware/multer-config.js");
 const authenticateToken = require("../Middleware/authenticate.js");
-const BooksCtrl = require("../controllers/Books.js");
-const { getBooks, getBook } = require("../controllers/Books.js");
+const BooksCtrl = require("../controllers/Books.Ctrl.js");
+//const { getBooks, getBook } = require("../controllers/Books.js");
 
 
-
+/*
 async function BooksGetAll(req, res) {
   return await BooksCtrl.getBooks(req, res);
 }
@@ -24,14 +24,14 @@ module.exports = {
   BooksGetAll,
   BooksGetOne
 };
+*/
 
-
-/*BooksRouter.get("/api/books", BooksCtrl.getBooks.bind(BooksCtrl));
-BooksRouter.get("/api/books/:id", BooksCtrl.getBook.bind(BooksCtrl));*/
+BooksRouter.get("/", BooksCtrl.getBooks);
+BooksRouter.get("/:id", BooksCtrl.getBook);
 BooksRouter.get("/bestrating", BooksCtrl.getBestRating);
-//BooksRouter.post("/", authenticateToken, multer, multer.optimizeImage, BooksCtrl.createBook);
+BooksRouter.post("/", authenticateToken, multer, multer.optimizeImage, BooksCtrl.createBook);
 BooksRouter.post("/:id/rating", authenticateToken, BooksCtrl.createRating);
-//BooksRouter.put("/:id", authenticateToken, multer, multer.optimizeImage, BooksCtrl.modifyBook);
+BooksRouter.put("/:id", authenticateToken, multer, multer.optimizeImage, BooksCtrl.modifyBook);
 BooksRouter.delete("/:id", authenticateToken, BooksCtrl.deleteBook);
 
 
