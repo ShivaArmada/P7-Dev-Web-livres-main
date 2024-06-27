@@ -1,18 +1,16 @@
 /*eslint-disable*/
+
+
 const multer = require("multer");
+// Optimisation des images
 const sharp = require("sharp");
 
-// pour gérer les chemins de fichiers
 const path = require("path");
+//gerer le fichier d'image
 const fs = require("fs");
 
 
-/*const MIME_TYPES = {
-  "image/jpg": "jpg",
-  "image/jpeg": "jpg",
-  "image/png": "png",
-};
-*/
+
 
 // Configuration du stockage
 const storage = multer.diskStorage({
@@ -53,6 +51,7 @@ module.exports.optimizeImage = (req, res, next) => {
   const fileName = req.file.filename;
   const outputFilePath = path.join("images", `resized_${fileName}`);
 
+  // Optimisation de l'image avec sharp
   sharp.cache(false);
   sharp(filePath)
     .resize({ width: 206, height: 260})
@@ -62,7 +61,7 @@ module.exports.optimizeImage = (req, res, next) => {
 
       fs.unlink(filePath, () => {
         req.file.path = outputFilePath;
-        console.log(`Image ${fileName} supprimée avec succès `);
+        console.log(`Image ${fileName} supprimée avec succès (format non optimisé inutile) `);
         next();
       });
     })

@@ -8,24 +8,8 @@ const BooksRouter = express.Router();
 const multer = require("../Middleware/multer-config.js");
 const authenticateToken = require("../Middleware/authenticate.js");
 const BooksCtrl = require("../controllers/Books.Ctrl.js");
-//const { getBooks, getBook } = require("../controllers/Books.js");
 
-
-/*
-async function BooksGetAll(req, res) {
-  return await BooksCtrl.getBooks(req, res);
-}
-
-async function BooksGetOne(req, res) {
-  return await BooksCtrl.getBook(req, res);
-}
-
-module.exports = {
-  BooksGetAll,
-  BooksGetOne
-};
-*/
-
+//L'autoroute à plusieurs voies de nos requetes books
 BooksRouter.get("/", BooksCtrl.getBooks);
 BooksRouter.get("/bestrating", BooksCtrl.getBestRating);
 BooksRouter.get("/:id", BooksCtrl.getBook);

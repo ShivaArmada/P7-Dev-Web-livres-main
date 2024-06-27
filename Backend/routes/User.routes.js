@@ -3,15 +3,8 @@ const express = require("express");
 const UserRouter = express.Router();
 
 const userCtrl = require("../controllers/User.ctrl");
-/*
-async function signUp(req, res) {
-  return await userCtrl.signUp(req, res);
-}
-async function signIn(req, res) {
-  return await userCtrl.signIn(req, res);
-}
-*/
 
+//Une nationale pour se connecter ou s'inscrire
 UserRouter.post('/signup', userCtrl.signUp);
 UserRouter.post('/login', userCtrl.login);
 

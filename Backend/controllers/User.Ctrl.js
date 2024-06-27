@@ -39,11 +39,11 @@ module.exports = {
         try {
             const user = await User.findOne({ email: req.body.email });
             if (!user) {
-                return handleError(res, "Utilisateur non trouvé !", "Tentative de connexion échouée pour email inconnu", 401);
+                return handleError(res, "Utilisateur non trouvé !", "Tentative de connexion échouée, email non reconnu", 401);
             }
             const valid = await bcrypt.compare(req.body.password, user.password);
             if (!valid) {
-                return handleError(res, "Mot de passe incorrect !", "Tentative de connexion échouée pour mot de passe incorrect", 401);
+                return handleError(res, "Mot de passe incorrect !", "Tentative de connexion échouée, mot de passe incorrect", 401);
             }
             const token = generateToken(user._id);
             res.status(200).json({

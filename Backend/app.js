@@ -5,50 +5,46 @@ const path = require("path");
 const cors = require("cors");
 const helmet = require("helmet");
 const mongoose = require("mongoose");
-//const { signIn, signUp } = require("./routes/User.routes");
-//const { BooksGetAll, BooksGetOne } = require("./routes/Books.routes");
+
 
 const app = express();
-//const docimage = require("../images/resized_71b1719143038744.webp");
+
+
 mongoose
   .connect(process.env.MONGODB_URL)
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch(() => console.log("Connexion à MongoDB échouée !"));
 
-// Enable CORS for the frontend app
+// En étant sur 4000, écoute et répond aux requêtes de notre front = 3000
 app.use(cors({ origin: "http://localhost:3000" }));
 
-// Use Helmet for basic security
-/*app.use(
+// Helmet permet de sécuriser le site de certaines vulnérabilités (iframe du site, en-têtes HTTP, etc.)
+app.use(
   helmet({
     crossOriginResourcePolicy: false,
   })
-);*/
+);
 
-//app.use(limiter); // Apply to all requests
-app.use(express.urlencoded({ extended: true })); // Pour analyser les corps de requête des formulaires HTML
+// headers
+app.use(express.urlencoded({ extended: true })); // Pour analyser les corps de requête
 app.use(express.json()); // Pour analyser les corps de requête au format JSON
 
-//coté books
 
+
+
+//afin de fournir les images du dossier images
 app.use("/images", express.static(path.join(__dirname, "../images")));
+
+//route principale des livres
 app.use("/api/books", require("./routes/Books.routes"));
-//app.get("/api/books", BooksGetAll);
-//app.get("/api/books/:id", BooksGetOne);
 
-/*app.post("/api/books", BooksCreate);
-app.get("/api/books/bestRating", getBestRating);
-app.post("/api/books/:id/rating", createRating);
-app.put("/api/books/:id", modifyBook);
-app.delete("/api/books/:id", deleteBook);*/
-
-//coté sign up et sign in
-
-//ou bien
-
+//route principale pour la gestion des utilisateurs
 app.use("/api/auth", require("./routes/User.routes"));
 
-// Handle errors
+
+
+
+// en cas d'erreur serveur
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("500, quelque chose ne va pas");
