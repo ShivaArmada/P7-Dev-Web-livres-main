@@ -6,9 +6,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const mongoose = require("mongoose");
 
-
 const app = express();
-
 
 mongoose
   .connect(process.env.MONGODB_URL)
@@ -29,9 +27,6 @@ app.use(
 app.use(express.urlencoded({ extended: true })); // Pour analyser les corps de requête
 app.use(express.json()); // Pour analyser les corps de requête au format JSON
 
-
-
-
 //afin de fournir les images du dossier images
 app.use("/images", express.static(path.join(__dirname, "../images")));
 
@@ -40,9 +35,6 @@ app.use("/api/books", require("./routes/Books.routes"));
 
 //route principale pour la gestion des utilisateurs
 app.use("/api/auth", require("./routes/User.routes"));
-
-
-
 
 // en cas d'erreur serveur
 app.use((err, req, res, next) => {

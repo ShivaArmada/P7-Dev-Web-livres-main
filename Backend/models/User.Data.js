@@ -25,12 +25,10 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-
-
 userSchema.plugin(uniqueValidator);
 
 // Création du modèle "UserUp" à partir du schéma
-const UserUp = mongoose.model('UserUp', userSchema);
+const UserUp = mongoose.model("UserUp", userSchema);
 
 // Export du modèle pour pouvoir l'utiliser dans d'autres fichiers
 module.exports = UserUp;
