@@ -16,7 +16,7 @@ mongoose
 // En étant sur 4000, écoute et répond aux requêtes de notre front = 3000
 app.use(cors({ origin: "http://localhost:3000" }));
 
-// Helmet permet de sécuriser le site de certaines vulnérabilités (iframe du site, en-têtes HTTP, etc.)
+// Helmet permet de sécuriser le site de certaines vulnérabilités (iframe du site, en-têtes HTTP, etc.) là config CORP : false pour multer
 app.use(
   helmet({
     crossOriginResourcePolicy: false,
@@ -35,6 +35,7 @@ app.use("/api/books", require("./routes/Books.routes"));
 
 //route principale pour la gestion des utilisateurs
 app.use("/api/auth", require("./routes/User.routes"));
+
 
 // en cas d'erreur serveur
 app.use((err, req, res, next) => {

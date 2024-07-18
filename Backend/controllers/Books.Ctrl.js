@@ -104,7 +104,7 @@ exports.createRating = async (req, res) => {
     if (!book) {
       return res.status(404).json({ message: "Livre non trouvé" });
     }
-
+    //permet de savoir si l'on est celui ayant post le livre initial
     const userIdArray = book.ratings.map((rating) => rating.userId);
     if (userIdArray.includes(req.auth.userId)) {
       return res.status(403).json({ message: "Not authorized" });
@@ -116,6 +116,7 @@ exports.createRating = async (req, res) => {
       (sum, rating) => sum + rating.grade,
       0
     );
+    //note moyenne
     book.averageRating = (totalGrades / book.ratings.length).toFixed(1);
 
     await book.save();
